@@ -1,7 +1,24 @@
-// import { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 
 function App() {
+  // Define the state type: an object containing keys typed to Str and values typed to Str or null
+  const [selectedOptions, setSelectedOptions] = useState<{
+    [key: string]: string | null;
+  }>({});
+
+  const handleToggle = (toggleId: string, optionId: string) => {
+    console.log(`toggle id: ${toggleId}`);
+    console.log(`option id: ${optionId}`);
+    setSelectedOptions((prev) => ({
+      ...prev, // keep previous selections
+
+      // value of toggleId is dynamically assigned to the value of the optionId
+      // e.g toggle3: "option2"
+      [toggleId]: optionId,
+    }));
+  };
+
   const togglesList = [
     {
       id: "toggle1",
@@ -43,7 +60,10 @@ function App() {
         {togglesList.map((toggle) => (
           <div key={toggle.id} className="box">
             {toggle.options.map((option) => (
-              <button key={option.id} className="option">
+              <button
+                key={option.id}
+                className="option"
+                onClick={() => handleToggle(toggle.id, option.id)}>
                 {option.text}
               </button>
             ))}
