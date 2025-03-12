@@ -63,7 +63,13 @@ function App() {
               <button
                 key={option.id}
                 className="option"
-                onClick={() => handleToggle(toggle.id, option.id)}>
+                onClick={() => handleToggle(toggle.id, option.id)}
+                style={{
+                  backgroundColor:
+                    selectedOptions[toggle.id] === option.id
+                      ? "lightblue"
+                      : "white",
+                }}>
                 {option.text}
               </button>
             ))}
