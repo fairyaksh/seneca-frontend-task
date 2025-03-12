@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const togglesList = [
+    {
+      id: "toggle1",
+      options: [
+        { id: "option1", text: "Cell Wall", correct: false },
+        { id: "option2", text: "Ribosomes", correct: true },
+      ],
+    },
+    {
+      id: "toggle2",
+      options: [
+        { id: "option1", text: "Cytoplasm", correct: true },
+        { id: "option2", text: "Chloroplast", correct: false },
+      ],
+    },
+    {
+      id: "toggle3",
+      options: [
+        { id: "option1", text: "Partially permeable membrance", correct: true },
+        { id: "option2", text: "Impermeable membrance", correct: false },
+      ],
+    },
+    {
+      id: "toggle4",
+      options: [
+        { id: "option1", text: "Cellulose", correct: false },
+        { id: "option2", text: "Mitochrondria", correct: true },
+      ],
+    },
+  ];
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {/* Question */}
+        <h2>An animal cell contains:</h2>
+
+        {/* Toggle Container */}
+        {togglesList.map((toggle) => (
+          <div key={toggle.id} className="box">
+            {toggle.options.map((option) => (
+              <button key={option.id} className="option">
+                {option.text}
+              </button>
+            ))}
+          </div>
+        ))}
+
+        {/* Result */}
+        <p>The answer is incorrect</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
