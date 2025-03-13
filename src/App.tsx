@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
@@ -6,10 +6,9 @@ function App() {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string>
   >({});
+  const [quizResult, setQuizResult] = useState<string>("");
 
   const handleToggle = (toggleId: string, optionId: string) => {
-    console.log(`toggle id: ${toggleId}`);
-    console.log(`option id: ${optionId}`);
     setSelectedOptions((prev) => ({
       ...prev, // keep previous selections
 
@@ -50,6 +49,34 @@ function App() {
     },
   ];
 
+  const correctAnswers = togglesList.reduce((acc, toggle) => {
+    const correctOption = toggle.options.find((option) => {
+      return option.correct;
+    });
+    if (correctOption) {
+      acc[toggle.id] = correctOption.id;
+    }
+    return acc;
+  }, {} as Record<string, string>);
+
+  const checkAllCorrect =
+    Object.keys(selectedOptions).length ===
+      Object.keys(correctAnswers).length &&
+    Object.keys(selectedOptions).every(
+      (toggleId) => selectedOptions[toggleId] === correctAnswers[toggleId]
+    );
+
+  // Set state to correct or incorrect depending on the check above
+  useEffect(() => {
+    if (checkAllCorrect) {
+      setQuizResult("correct!");
+    } else if (
+      Object.keys(selectedOptions).length === Object.keys(correctAnswers).length
+    ) {
+      setQuizResult("incorrect");
+    }
+  }, [selectedOptions, correctAnswers, checkAllCorrect]);
+
   return (
     <>
       <div>
@@ -64,6 +91,7 @@ function App() {
                 key={option.id}
                 className="option"
                 onClick={() => handleToggle(toggle.id, option.id)}
+                disabled={checkAllCorrect}
                 style={{
                   backgroundColor:
                     selectedOptions[toggle.id] === option.id
@@ -77,7 +105,8 @@ function App() {
         ))}
 
         {/* Result */}
-        <p>The answer is incorrect</p>
+        <p>Selected Options: {JSON.stringify(selectedOptions)}</p>
+        <p> The answer is {quizResult}</p>
       </div>
     </>
   );
