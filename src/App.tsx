@@ -2,10 +2,10 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  // Define the state type: an object containing keys typed to Str and values typed to Str or null
-  const [selectedOptions, setSelectedOptions] = useState<{
-    [key: string]: string | null;
-  }>({});
+  // Define the state type: Tracking multiple objects containing keys and values typed to Str
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, string>
+  >({});
 
   const handleToggle = (toggleId: string, optionId: string) => {
     console.log(`toggle id: ${toggleId}`);
